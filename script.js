@@ -198,7 +198,7 @@ function loadCSS() {
 function loadHTML() {
 if(vidCheck.classList.contains("vp-js")) {
     const videoDiv = document.createElement('div')
-    videoDiv.classList.add('video-container', 'paused')
+    videoDiv.classList.add('video-container', 'paused', "video-div", 'vp-js')
     videoDiv.setAttribute('data-volume-level', 'low')
     videoDiv.innerHTML = `
     <div class="video-controls-container">
@@ -399,5 +399,7 @@ video.addEventListener('pause', () => {
 })
 }
 
+
 loadHTML()
 everythingElse()
+
