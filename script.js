@@ -194,7 +194,6 @@ function loadCSS() {
     }`
         document.body.appendChild(loadCSS)
 }
-
 function loadHTML() {
 if(vidCheck.classList.contains("vp-js")) {
     const videoDiv = document.createElement('div')
@@ -265,7 +264,6 @@ if(vidCheck.classList.contains("vp-js")) {
 }
 }
 loadCSS()
-
 function everythingElse() {
 const playPauseBtn = document.querySelector('.play-pause-btn')
 const videoContainer = document.querySelector('.video-container')
@@ -284,8 +282,12 @@ const speedBtn = document.querySelector('.speed-btn')
 //////////
 const video = document.querySelector('video')
 
+//////GAME CHANGING FUNCTION RIGHT HERE//////////////
+const listen = (target, event, callback) => { 
+  target.addEventListener(event, callback)  
+}
 
-document.addEventListener('keydown', e => {
+listen(document, 'keydown', e => {
     const tagName = document.activeElement.tagName.toLowerCase()
     if (tagName === 'input') return
     switch (e.key.toLowerCase()) {
@@ -316,17 +318,15 @@ document.addEventListener('keydown', e => {
         }
 } )
 /////////// PLAYBACK SPEED
-speedBtn.addEventListener('click', e => {let newPlaybackRate = video.playbackRate + .25
+listen(speedBtn, 'click', e => {let newPlaybackRate = video.playbackRate + .25
   if (newPlaybackRate > 2) newPlaybackRate = .25
   video.playbackRate = newPlaybackRate
   speedBtn.textContent = `${newPlaybackRate}X`})
-
 ////// DURATION
-video.addEventListener('loadeddata', () => {
-    totalTimeElem.textContent = formatDuration(video.duration)
+listen(video, 'loadeddata', () => {
+  totalTimeElem.textContent = formatDuration(video.duration)
 })
-
-video.addEventListener('timeupdate', () => {
+listen(video, 'timeupdate', () => {
     currentTimeElem.textContent = formatDuration(video.currentTime)
 })
 const leadingZeroFormatter = new Intl.NumberFormat(undefined, {minimumIntegerDigits: 2})
@@ -345,14 +345,14 @@ function formatDuration(time) {
         video.currentTime += duration
     }
 /////// VOLUME / MUTE 
-muteBtn.addEventListener('click', () => {video.muted = !video.muted //' function toggleMute()
+listen(muteBtn, 'click', () => {video.muted = !video.muted //' function toggleMute()
 })
-volumeSlider.addEventListener('input', e => { 
+listen(volumeSlider,'input', e => { 
     video.volume = e.target.value
     video.muted = e.target.value === 0
 })
 
-video.addEventListener('volumechange', () => {
+listen(video, 'volumechange', () => {
     volumeSlider.value = video.volume
     let volumeLevel
     if (video.muted || video.volume === 0) {
@@ -366,40 +366,39 @@ video.addEventListener('volumechange', () => {
     videoContainer.dataset.volumeLevel = volumeLevel
 })
 //VIEW MODES
-theaterBtn.addEventListener('click', e => {videoContainer.classList.toggle('theater')
+listen(theaterBtn, 'click', e => {videoContainer.classList.toggle('theater')
 })
-fullScreenBtn.addEventListener('click', e => {document.fullscreenElement == null ? videoContainer.requestFullscreen() : document.exitFullscreen()})
+listen(fullScreenBtn, 'click', e => {document.fullscreenElement == null ? videoContainer.requestFullscreen() : document.exitFullscreen()})
 
-miniPlayerBtn.addEventListener('click', e => {
+listen(miniPlayerBtn, 'click', e => {
   videoContainer.classList.contains('mini-player') ? document.exitPictureInPicture() : video.requestPictureInPicture()})
 
-document.addEventListener('fullscreenchange', () => {
+listen(document,'fullscreenchange', () => {
     videoContainer.classList.toggle('full-screen', document.fullScreenElement)
 })
-video.addEventListener('enterpictureinpicture', () => {
+listen(video,'enterpictureinpicture', () => {
     videoContainer.classList.add('mini-player')
 })
-video.addEventListener('leavepictureinpicture', () => {
+listen(video,'leavepictureinpicture', () => {
     videoContainer.classList.remove('mini-player')
 })
 
-///////////
-// PLAY / PAUSE //
-playPauseBtn.addEventListener('click', togglePlay)
+listen(playPauseBtn, 'click', togglePlay)
+listen(video, 'click', togglePlay)
 
-video.addEventListener('click', togglePlay)
 function togglePlay() {
     video.paused ? video.play() : video.pause()
 }
-video.addEventListener('play', () => {
-videoContainer.classList.remove('paused')
-})
-video.addEventListener('pause', () => {
-    videoContainer.classList.add('paused')
-})
-}
+
+listen(video, 'play', () => {
+  videoContainer.classList.remove('paused')
+  })
+listen(video, 'pause',() => {
+  videoContainer.classList.add('paused')
+} )
+
+} //everythingelse close bracket
 
 
 loadHTML()
 everythingElse()
-
