@@ -370,12 +370,8 @@ theaterBtn.addEventListener('click', e => {videoContainer.classList.toggle('thea
 })
 fullScreenBtn.addEventListener('click', e => {document.fullscreenElement == null ? videoContainer.requestFullscreen() : document.exitFullscreen()})
 
-miniPlayerBtn.addEventListener('click', toggleMiniPlayerMode)
-
-function toggleMiniPlayerMode() {
-    if (videoContainer.classList.contains('mini-player')) {
-        document.exitPictureInPicture()
-    } else {video.requestPictureInPicture()}}
+miniPlayerBtn.addEventListener('click', e => {
+  videoContainer.classList.contains('mini-player') ? document.exitPictureInPicture() : video.requestPictureInPicture()})
 
 document.addEventListener('fullscreenchange', () => {
     videoContainer.classList.toggle('full-screen', document.fullScreenElement)
