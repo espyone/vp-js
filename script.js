@@ -287,7 +287,7 @@ const listen = (target, event, callback) => {
   target.addEventListener(event, callback)  
 }
 
-listen(document, 'keydown', e => {
+listen(document, 'keydown', () => {
     const tagName = document.activeElement.tagName.toLowerCase()
     if (tagName === 'input') return
     switch (e.key.toLowerCase()) {
@@ -318,7 +318,7 @@ listen(document, 'keydown', e => {
         }
 } )
 /////////// PLAYBACK SPEED
-listen(speedBtn, 'click', e => {let newPlaybackRate = video.playbackRate + .25
+listen(speedBtn, 'click', () => {let newPlaybackRate = video.playbackRate + .25
   if (newPlaybackRate > 2) newPlaybackRate = .25
   video.playbackRate = newPlaybackRate
   speedBtn.textContent = `${newPlaybackRate}X`})
@@ -347,7 +347,7 @@ function formatDuration(time) {
 /////// VOLUME / MUTE 
 listen(muteBtn, 'click', () => {video.muted = !video.muted //' function toggleMute()
 })
-listen(volumeSlider,'input', e => { 
+listen(volumeSlider,'input', () => { 
     video.volume = e.target.value
     video.muted = e.target.value === 0
 })
@@ -366,11 +366,11 @@ listen(video, 'volumechange', () => {
     videoContainer.dataset.volumeLevel = volumeLevel
 })
 //VIEW MODES
-listen(theaterBtn, 'click', e => {videoContainer.classList.toggle('theater')
+listen(theaterBtn, 'click', () => {videoContainer.classList.toggle('theater')
 })
-listen(fullScreenBtn, 'click', e => {document.fullscreenElement == null ? videoContainer.requestFullscreen() : document.exitFullscreen()})
+listen(fullScreenBtn, 'click', () => {document.fullscreenElement == null ? videoContainer.requestFullscreen() : document.exitFullscreen()})
 
-listen(miniPlayerBtn, 'click', e => {
+listen(miniPlayerBtn, 'click', () => {
   videoContainer.classList.contains('mini-player') ? document.exitPictureInPicture() : video.requestPictureInPicture()})
 
 listen(document,'fullscreenchange', () => {
